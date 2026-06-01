@@ -1,0 +1,32 @@
+from PIL import Image, ImageDraw, ImageFont
+print("=== Image Watermark Generator ===")
+print("Type 'exit' anytime to quit.\n")
+while True:
+    image_path = input("Enter image file path: ")
+    if image_path.lower() == "exit":
+        print("Goodbye!")
+        break
+    try:
+        img = Image.open(image_path)
+        watermark_text = input("Enter watermark text: ")
+        if watermark_text.lower() == "exit":
+            print("Goodbye!")
+            break
+        draw = ImageDraw.Draw(img)
+        font = ImageFont.load_default()
+        width, height = img.size
+        text_x = width - 150
+        text_y = height - 30
+        draw.text(
+            (text_x, text_y),
+            watermark_text,
+            fill=(255, 255, 255),
+            font=font
+        )
+        output_name = "watermarked_" + image_path
+        img.save(output_name)
+        print(f"Watermarked image saved as: {output_name}")
+    except FileNotFoundError:
+        print("Error: Image file not found.")
+    except Exception as e:
+        print("Unexpected error:", e)
